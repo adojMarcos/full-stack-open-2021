@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Filter from "./components/Filter.js";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
-import Message from "./components/Message";
+import Message from "./components/Message"
 import contacts from "./services/contacts";
 import "./index.css";
 
@@ -12,11 +12,10 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [filter, setFilter] = useState("");
   const [successMessage, setSuccessMessage] = useState(null);
-  const [reload, setReload] = useState(false);
 
   useEffect(() => {
     contacts.getAll().then((initialContacts) => setPersons(initialContacts));
-  }, [reload]);
+  }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -42,10 +41,8 @@ const App = () => {
               )
             )
           )
-          .catch((error) => {
-            setSuccessMessage(
-              `Error: Information of ${newName} has already been removed from the server`
-            );
+          .catch(error => {
+            setSuccessMessage(`Error: Information of ${newName} has already been removed from the server`)
             setTimeout(() => {
               setSuccessMessage(null);
             }, 5000);
@@ -56,28 +53,19 @@ const App = () => {
         return;
       }
     } else {
-      contacts
-        .create(newPerson)
-        .then((returnedPerson) => {
-          setPersons(persons.concat(returnedPerson));
-          setSuccessMessage(
-            found ? `${newName} number was updated` : `Added ${newName}`
-          );
-        })
-        .catch((error) => {
-          setSuccessMessage(`Error: Person validation failed: name: Path 'name' ${newName} is shorter than the minimum allowed length (3).`)
-        });
-
-      setTimeout(() => {
-        setSuccessMessage(null);
-      }, 5000);
-      setNewName("");
-      setNewNumber("");
+      contacts.create(newPerson).then((returnedPerson) => {
+        setPersons(persons.concat(returnedPerson));
+      });
     }
+    setSuccessMessage(
+      found ? `${newName} number was updated` : `Added ${newName}`
+    );
 
     setTimeout(() => {
-      setReload(!reload);
-    }, 0);
+      setSuccessMessage(null);
+    }, 5000);
+    setNewName("");
+    setNewNumber("");
   };
 
   const handleChange = (event) => {
@@ -95,10 +83,6 @@ const App = () => {
     contacts.remove(id).then((updatedContacts) => {
       setPersons(persons.filter((person) => person.id !== id));
     });
-    setTimeout(() => {
-      setReload(!reload);
-
-    }, 100);
   };
 
   return (
