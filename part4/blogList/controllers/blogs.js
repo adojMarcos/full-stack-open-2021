@@ -49,13 +49,14 @@ blogsRouter.post("/", middleware.userExtractor, async (request, response) => {
 });
 
 blogsRouter.put("/:id", async (request, response) => {
+  console.log(request.body)
   const body = request.body;
   const blog = {
     title: body.title,
     author: body.author,
     url: body.url,
     likes: body.likes,
-    __v: body.__v,
+    __v: body.__v
   };
 
   const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, {
