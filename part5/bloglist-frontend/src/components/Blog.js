@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 const Blog = ({ blog, updateLikes, deleteBlog }) => {
   const [showBlogInfo, setShowBlogInfo] = useState([])
 
+
   const viewDetails = (blog) => {
     showBlogInfo.includes(blog.id)
       ? setShowBlogInfo(
@@ -26,14 +27,14 @@ const Blog = ({ blog, updateLikes, deleteBlog }) => {
       <div key={Math.random() * 1000000} style={blogStyle}>
         <p>
           {blog.title} {blog.author}{' '}
-          <button onClick={() => viewDetails(blog)}>{showBlogInfo.includes(blog.id) ? ' hide ' : ' view '}</button>
+          <button id='visibilityButton' onClick={() => viewDetails(blog)}>{showBlogInfo.includes(blog.id) ? ' hide ' : ' view '}</button>
         </p>
         {showBlogInfo.includes(blog.id) ? (
           <>
             <p>{blog.url} </p>
             <p>
               likes {blog.likes}{' '}
-              <button onClick={() => updateLikes(blog)}> like </button>
+              <button id='likeButton' onClick={() => updateLikes(blog)}> like </button>
             </p>
             <button onClick={() => deleteBlog(blog)}> delete </button>
           </>

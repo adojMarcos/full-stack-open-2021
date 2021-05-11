@@ -1,9 +1,26 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-const CreateForm = ({ handleSubmit, title, author, url, handleUrlChange, handleTitleChange, handleAuthorChange }) => {
+const CreateForm = ({ createBlog }) => {
+
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    createBlog({
+      title: title,
+      author: author,
+      url: url,
+    })
+    setTitle('')
+    setAuthor('')
+    setUrl('')
+  }
+
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} id='form'>
 
       <h2>Create New</h2>
       <div>
@@ -12,7 +29,7 @@ const CreateForm = ({ handleSubmit, title, author, url, handleUrlChange, handleT
           type="text"
           value={title}
           name="Title"
-          onChange={handleTitleChange}
+          onChange={({ target }) => setTitle(target.value)}
         />
       </div>
       <div>
@@ -21,7 +38,7 @@ const CreateForm = ({ handleSubmit, title, author, url, handleUrlChange, handleT
           type="text"
           value={author}
           name="Author"
-          onChange={handleAuthorChange}
+          onChange={({ target }) => setAuthor(target.value)}
         />
       </div>
       <div>
@@ -30,10 +47,10 @@ const CreateForm = ({ handleSubmit, title, author, url, handleUrlChange, handleT
           type="text"
           value={url}
           name="URL"
-          onChange={handleUrlChange}
+          onChange={({ target }) => setUrl(target.value)}
         />
       </div>
-      <button type="submit">Add</button>
+      <button id='createBlogButton'type="submit">Add</button>
       <br />
     </form>
   )

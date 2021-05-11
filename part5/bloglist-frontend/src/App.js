@@ -12,9 +12,6 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs))
@@ -41,7 +38,6 @@ const App = () => {
       window.localStorage.setItem('loggedNoteAppUser', JSON.stringify(user))
 
       blogService.setToken(user.token)
-
       setUser(user)
       setUsername('')
       setPassword('')
@@ -53,25 +49,18 @@ const App = () => {
     }
   }
 
-  const addBlog = (event) => {
-    event.preventDefault()
+  const addBlog = (blogObject) => {
+
     try {
       blogFormRef.current.toggleVisibility()
-      const blogObject = {
-        title: title,
-        author: author,
-        url: url,
-      }
 
       blogService.create(blogObject).then((returnedObject) => {
         setBlogs(blogs.concat(returnedObject))
-        setSucessMessage(`a new blog ${title} by ${author} added`)
+        setSucessMessage(`a new blog ${blogObject.title} by ${blogObject.author} added`)
         setTimeout(() => {
           setSucessMessage('')
         }, 5000)
-        setTitle('')
-        setAuthor('')
-        setUrl('')
+
       })
     } catch (exception) {
       console.log(exception)
@@ -118,6 +107,7 @@ const App = () => {
       <div>
         username
         <input
+          id='username'
           type="text"
           value={username}
           name="Username"
@@ -127,13 +117,14 @@ const App = () => {
       <div>
         password
         <input
+          id='password'
           type="password"
           value={password}
           name="Password"
           onChange={({ target }) => setPassword(target.value)}
         />
       </div>
-      <button type="submit">login</button>
+      <button id='login-button' type="submit">login</button>
     </form>
   )
 
@@ -173,13 +164,7 @@ const App = () => {
           </p>{' '}
           <Togglable buttonLabel="Add" ref={blogFormRef}>
             <CreateForm
-              url={url}
-              author={author}
-              title={title}
-              handleUrlChange={({ target }) => setUrl(target.value)}
-              handleTitleChange={({ target }) => setTitle(target.value)}
-              handleAuthorChange={({ target }) => setAuthor(target.value)}
-              handleSubmit={addBlog}
+              createBlog={addBlog}
             />
           </Togglable>
           {blogList()}
