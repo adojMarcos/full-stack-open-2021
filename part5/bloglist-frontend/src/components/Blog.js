@@ -22,21 +22,21 @@ const Blog = ({ blog, updateLikes, deleteBlog }) => {
     marginBottom: 5,
   }
   return (
-    <div className="blog">
+    <div className="blog" data-cy='blogs'>
       {/*   { showBlogInfo.includes(blog.id) ? ( */}
       <div key={Math.random() * 1000000} style={blogStyle}>
         <p>
           {blog.title} {blog.author}{' '}
-          <button id='visibilityButton' onClick={() => viewDetails(blog)}>{showBlogInfo.includes(blog.id) ? ' hide ' : ' view '}</button>
+          <button id='visibilityButton' data-cy='viewHideButton' onClick={() => viewDetails(blog)}>{showBlogInfo.includes(blog.id) ? ' hide ' : ' view '}</button>
         </p>
         {showBlogInfo.includes(blog.id) ? (
           <>
             <p>{blog.url} </p>
             <p>
-              likes {blog.likes}{' '}
-              <button id='likeButton' onClick={() => updateLikes(blog)}> like </button>
+              likes <span data-cy='like' >{blog.likes}</span> {' '}
+              <button id='likeButton' data-cy='likeBtn' onClick={() => updateLikes(blog)}> like </button>
             </p>
-            <button onClick={() => deleteBlog(blog)}> delete </button>
+            <button id='deleteButton' onClick={() => deleteBlog(blog)}> delete </button>
           </>
         ) : null}
       </div>
