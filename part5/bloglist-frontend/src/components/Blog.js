@@ -13,6 +13,12 @@ const Blog = ({ blog, updateLikes, deleteBlog }) => {
       : setShowBlogInfo(showBlogInfo.concat(blog.id))
   }
 
+  const handleLikeButton = (blog) => {
+    updateLikes(blog, {
+      ...blog,
+      likes: blog.likes + 1,
+    })
+  }
 
   const blogStyle = {
     paddingTop: 10,
@@ -34,7 +40,7 @@ const Blog = ({ blog, updateLikes, deleteBlog }) => {
             <p>{blog.url} </p>
             <p>
               likes <span data-cy='like' >{blog.likes}</span> {' '}
-              <button id='likeButton' data-cy='likeBtn' onClick={() => updateLikes(blog)}> like </button>
+              <button id='likeButton' data-cy='likeBtn' onClick={() => handleLikeButton(blog)}> like </button>
             </p>
             <button id='deleteButton' onClick={() => deleteBlog(blog)}> delete </button>
           </>

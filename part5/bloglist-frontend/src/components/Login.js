@@ -1,13 +1,17 @@
 import React, { useState } from 'react'
 
-export const Login = ({ handleLogin }) => {
+const Login = ({ handleLogin }) => {
   const [userName, setUserName] = useState()
   const [password, setPassword] = useState()
 
   const handleSubmit = (event) => {
     event.preventDefault()
-
-
+    handleLogin({
+      username: userName,
+      password: password,
+    })
+    setUserName('')
+    setPassword('')
   }
 
   return (
@@ -37,3 +41,5 @@ export const Login = ({ handleLogin }) => {
     </form>
   )
 }
+
+export default Login
